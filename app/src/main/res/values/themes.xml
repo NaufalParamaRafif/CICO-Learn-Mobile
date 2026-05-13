@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.CICOLearn" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>
