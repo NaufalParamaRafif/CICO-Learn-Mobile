@@ -49,6 +49,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -140,7 +141,8 @@ class MainActivity : ComponentActivity() {
                         Spacer(Modifier.height(16.dp))
                         Row(
                             modifier = Modifier
-                                .fillMaxWidth().horizontalScroll(scrollLessonsCategoryState),
+                                .fillMaxWidth()
+                                .horizontalScroll(scrollLessonsCategoryState),
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
 
                         ) {
@@ -149,6 +151,8 @@ class MainActivity : ComponentActivity() {
                             UnselectedLessonCategoryButton("Grammar")
                             UnselectedLessonCategoryButton("Dialog")
                         }
+                        Spacer(Modifier.height(16.dp))
+                        FilterSelectedCategoryLessonDropDownButton()
                     }
                 }
             }
@@ -292,5 +296,24 @@ fun SelectedLessonCategoryButton(title: String) {
         shape = RoundedCornerShape(4.dp),
     ) {
         Text(title)
+    }
+}
+
+@Composable
+fun FilterSelectedCategoryLessonDropDownButton(modifier: Modifier = Modifier) {
+    Surface(
+        modifier = Modifier.background(LightSecondary),
+        shape = RoundedCornerShape(4.dp),
+        border = BorderStroke(1.dp, LightDarkBorder),
+        contentColor = LightDarkText
+    ) {
+        Row(
+            modifier = Modifier.background(LightSecondary).fillMaxWidth().padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text("Selected")
+            Icon(painter = painterResource(R.drawable.ic_category_lesson_filter), contentDescription = null)
+        }
     }
 }
