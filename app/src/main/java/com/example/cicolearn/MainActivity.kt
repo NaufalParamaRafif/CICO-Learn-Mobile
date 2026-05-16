@@ -6,11 +6,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,9 +22,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.ElevatedCard
@@ -55,6 +61,7 @@ import com.example.cicolearn.ui.theme.LightLightBorder
 import com.example.cicolearn.ui.theme.LightLightText
 import com.example.cicolearn.ui.theme.LightOnPrimary
 import com.example.cicolearn.ui.theme.LightPrimary
+import com.example.cicolearn.ui.theme.LightPrimaryGradient
 import com.example.cicolearn.ui.theme.LightSecondary
 
 class MainActivity : ComponentActivity() {
@@ -74,6 +81,7 @@ class MainActivity : ComponentActivity() {
                         BottomAppBarHomepage()
                     },
                 ) { innerPadding ->
+                    val scrollLessonsCategoryState = rememberScrollState()
                     Column(
                         modifier = Modifier
 //                            .background(color = Color.Red)
@@ -129,11 +137,17 @@ class MainActivity : ComponentActivity() {
                                 }
                             }
                         }
-                        Spacer(Modifier.height(24.dp))
+                        Spacer(Modifier.height(16.dp))
                         Row(
-//                            modifier = Modifier.horizontalScroll()
-                        ) {
+                            modifier = Modifier
+                                .fillMaxWidth().horizontalScroll(scrollLessonsCategoryState),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
 
+                        ) {
+                            SelectedLessonCategoryButton("Recent Lessons")
+                            UnselectedLessonCategoryButton("Vocabulary")
+                            UnselectedLessonCategoryButton("Grammar")
+                            UnselectedLessonCategoryButton("Dialog")
                         }
                     }
                 }
@@ -243,5 +257,40 @@ fun BottomAppBarHomepageItem(
             fontWeight = FontWeight.Medium,
             fontSize = 12.sp
         )
+    }
+}
+
+@Composable
+fun UnselectedLessonCategoryButton(title: String) {
+    Button(
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
+        onClick = {},
+        colors = ButtonColors(
+            containerColor = LightSecondary,
+            contentColor = LightDarkText,
+            disabledContentColor = Color.Green,
+            disabledContainerColor = Color.Yellow
+        ),
+        shape = RoundedCornerShape(4.dp),
+        border = BorderStroke(1.dp, LightDarkBorder)
+    ) {
+        Text(title)
+    }
+}
+
+@Composable
+fun SelectedLessonCategoryButton(title: String) {
+    Button(
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
+        onClick = {},
+        colors = ButtonColors(
+            containerColor = LightPrimary,
+            contentColor = LightOnPrimary,
+            disabledContentColor = Color.Green,
+            disabledContainerColor = Color.Yellow
+        ),
+        shape = RoundedCornerShape(4.dp),
+    ) {
+        Text(title)
     }
 }
