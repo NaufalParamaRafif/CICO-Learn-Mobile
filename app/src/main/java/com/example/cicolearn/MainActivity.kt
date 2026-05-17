@@ -1,12 +1,14 @@
 package com.example.cicolearn
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
@@ -15,6 +17,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,8 +26,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.AbsoluteCutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
@@ -35,6 +40,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -48,6 +54,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
@@ -64,6 +72,7 @@ import com.example.cicolearn.ui.theme.LightOnPrimary
 import com.example.cicolearn.ui.theme.LightPrimary
 import com.example.cicolearn.ui.theme.LightPrimaryGradient
 import com.example.cicolearn.ui.theme.LightSecondary
+import com.example.cicolearn.ui.theme.LightSurface
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -94,50 +103,19 @@ class MainActivity : ComponentActivity() {
                     ) {
                         Spacer(Modifier.height(8.dp))
                         Row(
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(String(Character.toChars(128536)), fontSize = 32.sp)
-                            Spacer(Modifier.width(16.dp))
-                            Text("Hello ..! Mumpung otak masih fresh nih, mau belajar apa?", fontWeight = FontWeight.SemiBold, fontSize = 14.sp, color = LightDarkText)
+                            Spacer(Modifier.width(8.dp))
+                            Text(
+                                "Hello ..! Mumpung otak masih fresh nih, mau belajar apa?",
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 14.sp, color = LightDarkText,
+                                lineHeight = 20.sp
+                            )
                         }
                         Spacer(Modifier.height(16.dp))
-                        ElevatedCard(
-                            colors = CardColors(
-                                containerColor = LightPrimary,
-                                contentColor = LightOnPrimary,
-                                disabledContentColor = Color.Green,
-                                disabledContainerColor = Color.Yellow
-                            ),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        ) {
-                            Column(
-                                modifier = Modifier.padding(horizontal = 24.dp, vertical = 24.dp)
-                            ) {
-                                Text("Streak", fontSize = 24.sp, fontWeight = FontWeight.Bold)
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.SpaceBetween,
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Text("3 days")
-                                    Text("121 lessons")
-                                }
-                                Spacer(Modifier.height(16.dp))
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.SpaceBetween
-                                ) {
-                                    Icon(painter = painterResource(R.drawable.streak_fire_off), contentDescription = null)
-                                    Icon(painter = painterResource(R.drawable.streak_fire_off), contentDescription = null)
-                                    Icon(painter = painterResource(R.drawable.streak_fire_off), contentDescription = null)
-                                    Icon(painter = painterResource(R.drawable.streak_fire_off), contentDescription = null)
-                                    Icon(painter = painterResource(R.drawable.streak_fire_off), contentDescription = null)
-                                    Icon(painter = painterResource(R.drawable.streak_fire_off), contentDescription = null)
-                                    Icon(painter = painterResource(R.drawable.streak_fire_off), contentDescription = null)
-                                }
-                            }
-                        }
+                        StreakCard()
                         Spacer(Modifier.height(16.dp))
                         Row(
                             modifier = Modifier
@@ -153,6 +131,8 @@ class MainActivity : ComponentActivity() {
                         }
                         Spacer(Modifier.height(16.dp))
                         FilterSelectedCategoryLessonDropDownButton()
+                        Spacer(Modifier.height(16.dp))
+                        LessonCard("Foods", 67, 100)
                     }
                 }
             }
@@ -283,6 +263,48 @@ fun UnselectedLessonCategoryButton(title: String) {
 }
 
 @Composable
+fun StreakCard() {
+    ElevatedCard(
+        colors = CardColors(
+            containerColor = LightPrimary,
+            contentColor = LightOnPrimary,
+            disabledContentColor = Color.Green,
+            disabledContainerColor = Color.Yellow
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier.padding(horizontal = 24.dp, vertical = 24.dp)
+        ) {
+            Text("Streak", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text("3 days")
+                Text("121 lessons")
+            }
+            Spacer(Modifier.height(24.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Icon(painter = painterResource(R.drawable.streak_fire_off), contentDescription = null)
+                Icon(painter = painterResource(R.drawable.streak_fire_off), contentDescription = null)
+                Icon(painter = painterResource(R.drawable.streak_fire_off), contentDescription = null)
+                Icon(painter = painterResource(R.drawable.streak_fire_off), contentDescription = null)
+                Icon(painter = painterResource(R.drawable.streak_fire_off), contentDescription = null)
+                Icon(painter = painterResource(R.drawable.streak_fire_off), contentDescription = null)
+                Icon(painter = painterResource(R.drawable.streak_fire_off), contentDescription = null)
+            }
+        }
+    }
+}
+
+@Composable
 fun SelectedLessonCategoryButton(title: String) {
     Button(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
@@ -308,12 +330,88 @@ fun FilterSelectedCategoryLessonDropDownButton(modifier: Modifier = Modifier) {
         contentColor = LightDarkText
     ) {
         Row(
-            modifier = Modifier.background(LightSecondary).fillMaxWidth().padding(16.dp),
+            modifier = Modifier
+                .background(LightSecondary)
+                .fillMaxWidth()
+                .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text("Selected")
+            Text("Selected", fontWeight = FontWeight.Medium, fontSize = 16.sp)
             Icon(painter = painterResource(R.drawable.ic_category_lesson_filter), contentDescription = null)
+        }
+    }
+}
+
+@Composable
+fun LessonCard(title: String, total: Int, progress: Int) {
+    Card(
+        colors = CardColors(
+            containerColor = LightSurface,
+            contentColor = LightLightText,
+            disabledContentColor = Color.Green,
+            disabledContainerColor = Color.Yellow
+        ),
+        border = BorderStroke(1.dp, color = LightLightBorder),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier.padding(vertical = 24.dp, horizontal = 24.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start,
+            ) {
+                Image(
+                    modifier = Modifier.size(48.dp).clip(RoundedCornerShape(6.dp)),
+                    painter = painterResource(R.drawable.introduction_image),
+                    contentDescription = null
+                )
+                Spacer(Modifier.width(16.dp))
+                Column(
+                    verticalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        "Foods",
+                        color = LightDarkText,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 18.sp
+                    )
+                    Text(
+                        text = "$total Words",
+                        modifier = Modifier
+                            .background(color = LightPrimary, shape = RoundedCornerShape(999.dp))
+                            .padding(horizontal = 8.dp),
+                        color = LightOnPrimary,
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+                Spacer(Modifier.weight(1f))
+                Icon(
+                    painter = painterResource(R.drawable.ic_expand_more),
+                    contentDescription = null,
+                    Modifier.size(12.dp)
+                )
+            }
+            Spacer(Modifier.height(8.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text("Progress", fontSize = 13.sp, fontWeight = FontWeight.Medium)
+                Text("$progress%", fontSize = 13.sp, fontWeight = FontWeight.Medium)
+            }
+            Spacer(Modifier.height(4.dp))
+            LinearProgressIndicator(
+                modifier = Modifier.fillMaxWidth(),
+                progress = {0.7f},
+                color = LightPrimary,
+                trackColor = LightLightBorder,
+                drawStopIndicator = {}
+            )
         }
     }
 }
