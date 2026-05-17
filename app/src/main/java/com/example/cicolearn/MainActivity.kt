@@ -62,6 +62,7 @@ import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -156,10 +157,13 @@ fun TopAppBarHomepage() {
                 value = input,
                 onValueChange = { input = it },
                 singleLine = false,
+                textStyle = TextStyle(
+                    fontSize = 14.sp,
+                    lineHeight = 24.sp
+                ),
                 modifier = Modifier
-                    .background(color = LightSecondary)
                     .fillMaxWidth(1f)
-                    .padding(end = 8.dp)
+                    .background(color = LightSecondary, RoundedCornerShape(4.dp))
                     .border(1.dp, LightDarkBorder, RoundedCornerShape(4.dp)),
                 decorationBox = { innerTextField ->
                     Row(
@@ -171,10 +175,19 @@ fun TopAppBarHomepage() {
                             contentDescription = null
                         )
                         Spacer(Modifier.width(16.dp))
-                        if (input.isEmpty()){
-                            input = "Search words, phrases..."
+                        Box {
+                            if (input.isEmpty()){
+                                Text(
+                                    text = "Search words, phrases...",
+                                    color = LightDarkText,
+                                    style = TextStyle(
+                                        fontSize = 14.sp,
+                                        lineHeight = 24.sp
+                                    )
+                                )
+                            }
+                            innerTextField()
                         }
-                        innerTextField()
                     }
                 }
             )
@@ -276,7 +289,7 @@ fun BottomAppBarUnselectedItem(
 @Composable
 fun UnselectedLessonCategoryButton(title: String) {
     Button(
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
         onClick = {},
         colors = ButtonColors(
             containerColor = LightSecondary,
@@ -350,7 +363,7 @@ fun SelectedLessonCategoryButton(title: String) {
         Box(
             modifier = Modifier
                 .background(brush = LightPrimaryGradient, shape = RoundedCornerShape(4.dp))
-                .padding(horizontal = 16.dp, vertical = 16.dp)
+                .padding(horizontal = 16.dp, vertical = 12.dp)
         ) {
             Text(title)
         }
@@ -369,11 +382,11 @@ fun FilterSelectedCategoryLessonDropDownButton(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .background(LightSecondary)
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(horizontal = 16.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text("Selected", fontWeight = FontWeight.Medium, fontSize = 16.sp)
+            Text("Selected", fontWeight = FontWeight.Medium, fontSize = 14.sp)
             Icon(painter = painterResource(R.drawable.ic_category_lesson_filter), contentDescription = null)
         }
     }
