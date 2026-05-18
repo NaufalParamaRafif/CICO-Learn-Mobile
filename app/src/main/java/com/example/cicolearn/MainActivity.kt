@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -34,6 +35,7 @@ import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
@@ -61,8 +63,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.cicolearn.ui.theme.CICOLearnTheme
 import com.example.cicolearn.ui.theme.LightBackground
@@ -98,6 +102,11 @@ class MainActivity : ComponentActivity() {
             val tabBarItems = listOf<TabBarItem>(homepageTab, memorizeTab, trainWithAITab, profileTab)
 
             val navController = rememberNavController()
+            val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+
+            val showBottomBar = currentRoute in listOf(
+                "Home", "Memorize", "Train with AI", "Profile", "Notification"
+            )
 
             CICOLearnTheme {
                 Surface(
@@ -106,22 +115,17 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Scaffold(
                         bottomBar = {
-                            TabView(tabBarItems, navController)
+                            if (showBottomBar) {
+                                TabView(tabBarItems, navController)
+                            }
                         }
                     ) {
                         NavHost(navController = navController, startDestination = homepageTab.title) {
-                            composable(homepageTab.title) {
-                                HomePage()
-                            }
-                            composable(memorizeTab.title) {
-                            Text(memorizeTab.title)
-                            }
-                            composable(trainWithAITab.title) {
-                                Text(trainWithAITab.title)
-                            }
-                            composable(profileTab.title) {
-                                Text(profileTab.title)
-                            }
+                            composable(homepageTab.title) { HomeScreen(navController = navController) }
+                            composable(memorizeTab.title) { Text(memorizeTab.title) }
+                            composable(trainWithAITab.title) { Text(trainWithAITab.title) }
+                            composable(profileTab.title) { Text(profileTab.title) }
+                            composable("Notification") { NotificationScreen(navController = navController) }
                         }
                     }
                 }
@@ -203,11 +207,11 @@ fun TabBarIconView(
 }
 
 @Composable
-fun HomePage() {
+fun HomeScreen(navController: NavController) {
     Scaffold(
         containerColor = LightBackground,
         topBar = {
-            TopAppBarHome()
+            TopAppBarHome(navController = navController)
         },
     ) { innerPadding ->
         val scrollLessonsCategoryState = rememberScrollState()
@@ -257,7 +261,72 @@ fun HomePage() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBarHome() {
+fun NotificationScreen(navController: NavController) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                navigationIcon = {
+                    IconButton(
+                        onClick = {
+                            navController.popBackStack()
+                        }
+                    ) {
+                        Icon(painter = painterResource(R.drawable.ic_back_button), contentDescription = null, tint = LightDarkText)
+                    }
+                },
+                title = {
+                    Text("Notification", fontWeight = FontWeight.Bold, color = LightDarkText, fontSize = 20.sp)
+                },
+            )
+        }
+    ) { contentPadding ->
+        Column(
+            modifier = Modifier.padding(contentPadding)
+        ) {
+            NotificationItem(
+                title = "Welcome!",
+                text = "Welcome to CICO Learn app, hope you find this app useful and helpful in your learning journey!",
+                timeDistace = "1 hour"
+            )
+            NotificationItem(
+                title = "Don't Give Up!",
+                text = "I know, this isn't easy, but with hardwork, persistance, consistency, discipline, you will make it!",
+                timeDistace = "3 hour"
+            )
+            HorizontalDivider(thickness = 1.dp, color = LightLightBorder)
+        }
+    }
+}
+
+@Composable
+fun NotificationItem(title : String, text : String, timeDistace: String) {
+    HorizontalDivider(thickness = 1.dp, color = LightLightBorder)
+    Row (
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ){
+        Text(String(Character.toChars(128536)), fontSize = 40.sp)
+        Spacer(Modifier.width(16.dp))
+        Column(
+        ) {
+            Text(title, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = LightDarkText)
+            Spacer(Modifier.height(4.dp))
+            Text(
+                text,
+                fontSize = 14.sp,
+                color = LightDarkText,
+                fontWeight = FontWeight.W400,
+                lineHeight = 16.sp
+            )
+            Spacer(Modifier.height(4.dp))
+            Text("$timeDistace ago", fontSize = 12.sp, color = LightLightText, fontWeight = FontWeight.Normal)
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TopAppBarHome(navController: NavController) {
     var input by rememberSaveable { mutableStateOf("") }
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
@@ -309,7 +378,9 @@ fun TopAppBarHome() {
                 color = Color.Transparent
             ) {
                 IconButton (
-                    onClick = {}
+                    onClick = {
+                        navController.navigate("Notification")
+                    }
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.ic_top_app_bar_notification), contentDescription = null
