@@ -1,7 +1,6 @@
 package com.example.cicolearn
 
 import android.annotation.SuppressLint
-import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,20 +17,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.AbsoluteCutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
@@ -43,29 +37,33 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.cicolearn.ui.theme.CICOLearnTheme
 import com.example.cicolearn.ui.theme.LightBackground
 import com.example.cicolearn.ui.theme.LightBottomNavigationLightText
@@ -79,6 +77,12 @@ import com.example.cicolearn.ui.theme.LightPrimaryGradient
 import com.example.cicolearn.ui.theme.LightSecondary
 import com.example.cicolearn.ui.theme.LightSurface
 
+data class TabBarItem(
+    val title: String,
+    @DrawableRes val selectedIcon: Int,
+    @DrawableRes val unselectedIcon: Int,
+)
+
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @OptIn(ExperimentalMaterial3Api::class)
@@ -86,57 +90,39 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            CICOLearnTheme {
-                Scaffold(
-                    containerColor = LightBackground,
-                    topBar = {
-                        TopAppBarHomepage()
-                    },
-                    bottomBar = {
-                        BottomAppBarHomepage()
-                    },
-                ) { innerPadding ->
-                    val scrollLessonsCategoryState = rememberScrollState()
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding)
-                            .padding(horizontal = 16.dp),
-                        verticalArrangement = Arrangement.Top,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Spacer(Modifier.height(8.dp))
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(String(Character.toChars(128536)), fontSize = 32.sp)
-                            Spacer(Modifier.width(8.dp))
-                            Text(
-                                "Hello ..! Mumpung otak masih fresh nih, mau belajar apa?",
-                                fontWeight = FontWeight.SemiBold,
-                                fontSize = 15.sp, color = LightDarkText,
-                                lineHeight = 20.sp
-                            )
-                        }
-                        Spacer(Modifier.height(16.dp))
-                        StreakCard()
-                        Spacer(Modifier.height(16.dp))
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .horizontalScroll(scrollLessonsCategoryState),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            val homepageTab = TabBarItem(title = "Home", selectedIcon = R.drawable.ic_bottom_app_bar_selected_homepage, unselectedIcon = R.drawable.ic_bottom_app_bar_unselected_homepage)
+            val memorizeTab = TabBarItem(title = "Memorize", selectedIcon = R.drawable.ic_bottom_app_bar_selected_memorize, unselectedIcon = R.drawable.ic_bottom_app_bar_unselected_memorize)
+            val trainWithAITab = TabBarItem(title = "Train with AI", selectedIcon = R.drawable.ic_bottom_app_bar_selected_train_with_ai, unselectedIcon = R.drawable.ic_bottom_app_bar_unselected_memorize)
+            val profileTab = TabBarItem(title = "Profile", selectedIcon = R.drawable.ic_bottom_app_bar_selected_profile, unselectedIcon = R.drawable.ic_bottom_app_bar_unselected_profile)
 
-                        ) {
-                            SelectedLessonCategoryButton("Recent Lessons")
-                            UnselectedLessonCategoryButton("Vocabulary")
-                            UnselectedLessonCategoryButton("Grammar")
-                            UnselectedLessonCategoryButton("Dialog")
+            val tabBarItems = listOf<TabBarItem>(homepageTab, memorizeTab, trainWithAITab, profileTab)
+
+            val navController = rememberNavController()
+
+            CICOLearnTheme {
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = LightBackground
+                ) {
+                    Scaffold(
+                        bottomBar = {
+                            TabView(tabBarItems, navController)
                         }
-                        Spacer(Modifier.height(16.dp))
-                        FilterSelectedCategoryLessonDropDownButton()
-                        Spacer(Modifier.height(16.dp))
-                        LessonCard("Foods", 67, 100)
+                    ) {
+                        NavHost(navController = navController, startDestination = homepageTab.title) {
+                            composable(homepageTab.title) {
+                                HomePage()
+                            }
+                            composable(memorizeTab.title) {
+                            Text(memorizeTab.title)
+                            }
+                            composable(trainWithAITab.title) {
+                                Text(trainWithAITab.title)
+                            }
+                            composable(profileTab.title) {
+                                Text(profileTab.title)
+                            }
+                        }
                     }
                 }
             }
@@ -144,9 +130,134 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@Composable
+fun TabView(tabBarItem: List<TabBarItem>, navController: NavController) {
+    var selectedTabIndex by rememberSaveable {
+        mutableIntStateOf(0)
+    }
+
+    NavigationBar {
+        tabBarItem.forEachIndexed { index,tabBarItem ->
+            NavigationBarItem(
+                selected = selectedTabIndex == index,
+                onClick = {
+                    selectedTabIndex = index
+                    navController.navigate(tabBarItem.title)
+                },
+                icon = {
+                    TabBarIconView(
+                        isSelected = selectedTabIndex == index,
+                        selectedIcon = tabBarItem.selectedIcon,
+                        unselectedIcon = tabBarItem.unselectedIcon,
+                        title = tabBarItem.title
+                    )
+                },
+                label = {
+                    Text(
+                        text = tabBarItem.title,
+                        color = if (selectedTabIndex == index) { LightDarkText } else { LightBottomNavigationLightText }
+                    )
+                },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = Color.Transparent,
+                    unselectedIconColor = Color.Transparent,
+                    indicatorColor = Color.Transparent,
+                    selectedTextColor = LightDarkText,
+                    unselectedTextColor = LightBottomNavigationLightText
+                ),
+            )
+        }
+    }
+}
+
+@Composable
+fun TabBarIconView(
+    isSelected: Boolean,
+    @DrawableRes selectedIcon: Int,
+    @DrawableRes unselectedIcon: Int,
+    title: String,
+) {
+    if (isSelected) {
+        Surface(
+            color = LightPrimary,
+            shape = RoundedCornerShape(8.dp)
+        ) {
+            Icon(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .background(color = LightPrimary),
+                painter = painterResource(selectedIcon),
+                contentDescription = title,
+                tint = LightOnPrimary
+            )
+        }
+    } else {
+        Icon(
+            modifier = Modifier
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            painter = painterResource(unselectedIcon),
+            contentDescription = null,
+            tint = LightDarkText
+        )
+    }
+}
+
+@Composable
+fun HomePage() {
+    Scaffold(
+        containerColor = LightBackground,
+        topBar = {
+            TopAppBarHome()
+        },
+    ) { innerPadding ->
+        val scrollLessonsCategoryState = rememberScrollState()
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(Modifier.height(8.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(String(Character.toChars(128536)), fontSize = 32.sp)
+                Spacer(Modifier.width(8.dp))
+                Text(
+                    "Hello ..! Mumpung otak masih fresh nih, mau belajar apa?",
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 15.sp, color = LightDarkText,
+                    lineHeight = 20.sp
+                )
+            }
+            Spacer(Modifier.height(16.dp))
+            StreakCard()
+            Spacer(Modifier.height(16.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(scrollLessonsCategoryState),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+
+                ) {
+                SelectedLessonCategoryButton("Recent Lessons")
+                UnselectedLessonCategoryButton("Vocabulary")
+                UnselectedLessonCategoryButton("Grammar")
+                UnselectedLessonCategoryButton("Dialog")
+            }
+            Spacer(Modifier.height(16.dp))
+            FilterSelectedCategoryLessonDropDownButton()
+            Spacer(Modifier.height(16.dp))
+            LessonCard("Foods", 67, 100)
+        }
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBarHomepage() {
+fun TopAppBarHome() {
     var input by rememberSaveable { mutableStateOf("") }
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
@@ -210,83 +321,6 @@ fun TopAppBarHomepage() {
 }
 
 @Composable
-fun BottomAppBarHomepage() {
-    BottomAppBar (
-        modifier = Modifier.border(width = 1.dp, color = LightLightBorder),
-        containerColor = LightBackground
-    ) {
-        Row(
-            modifier = Modifier
-                .padding(horizontal = 16.dp, vertical = 4.dp)
-                .fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            BottomAppBarSelectedItem(iconRes = R.drawable.ic_bottom_app_bar_selected_homepage, itemName = "Homepage")
-            BottomAppBarUnselectedItem(iconRes = R.drawable.ic_bottom_app_bar_unselected_memorize, itemName = "Memorize")
-            BottomAppBarUnselectedItem(iconRes = R.drawable.ic_bottom_app_bar_unselected_train_with_ai, itemName = "Train with AI")
-            BottomAppBarUnselectedItem(iconRes = R.drawable.ic_bottom_app_bar_unselected_profile, itemName = "Profile")
-        }
-    }
-}
-
-@Composable
-fun BottomAppBarSelectedItem(
-    @DrawableRes iconRes: Int, itemName: String
-) {
-    Column(
-        modifier = Modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween,
-    ) {
-        Surface(
-            color = LightPrimary,
-            shape = RoundedCornerShape(8.dp)
-        ) {
-            Icon(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-                    .background(color = LightPrimary),
-                painter = painterResource(iconRes),
-                contentDescription = null,
-                tint = LightOnPrimary
-            )
-        }
-        Spacer(Modifier.height(4.dp))
-        Text(
-            itemName,
-            color = LightDarkText,
-            fontWeight = FontWeight.Medium,
-            fontSize = 12.sp
-        )
-    }
-}
-
-@Composable
-fun BottomAppBarUnselectedItem(
-    @DrawableRes iconRes: Int, itemName: String
-) {
-    Column(
-        modifier = Modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween,
-    ) {
-        Icon(
-            modifier = Modifier
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            painter = painterResource(iconRes),
-            contentDescription = null
-        )
-        Spacer(Modifier.height(4.dp))
-        Text(
-            itemName,
-            fontWeight = FontWeight.Medium,
-            fontSize = 12.sp,
-            color = LightBottomNavigationLightText,
-        )
-    }
-}
-@Composable
 fun UnselectedLessonCategoryButton(title: String) {
     Button(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
@@ -315,11 +349,13 @@ fun StreakCard() {
             .fillMaxWidth()
     ) {
         Box(
-            modifier = Modifier .fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .background(
                     brush = LightPrimaryGradient,
                     shape = RoundedCornerShape(16.dp)
-                ).padding(horizontal = 24.dp, vertical = 24.dp)
+                )
+                .padding(horizontal = 24.dp, vertical = 24.dp)
         ) {
             Column {
                 Text("Streak", fontSize = 24.sp, fontWeight = FontWeight.Bold)
@@ -413,7 +449,9 @@ fun LessonCard(title: String, total: Int, progress: Int) {
                 horizontalArrangement = Arrangement.Start,
             ) {
                 Image(
-                    modifier = Modifier.size(48.dp).clip(RoundedCornerShape(6.dp)),
+                    modifier = Modifier
+                        .size(48.dp)
+                        .clip(RoundedCornerShape(6.dp)),
                     painter = painterResource(R.drawable.introduction_image),
                     contentDescription = null
                 )
