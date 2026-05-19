@@ -6,36 +6,24 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.cicolearn.BottomBarScreen
-import com.example.cicolearn.TabBarItem
+import com.example.cicolearn.bottomNavScreenList
 import com.example.cicolearn.ui.theme.LightBottomNavigationLightText
 import com.example.cicolearn.ui.theme.LightDarkText
 
 @Composable
 fun TabView(navController: NavController) {
-    val screens = listOf(
-        BottomBarScreen.Home,
-        BottomBarScreen.Memorize,
-        BottomBarScreen.TrainWithAI,
-        BottomBarScreen.Profile
-    )
-
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    val bottomBarDestination = screens.any { it.route == currentDestination?.route }
+    val bottomBarDestination = bottomNavScreenList.any { it.route == currentDestination?.route }
 
     NavigationBar {
         if (bottomBarDestination) {
-            screens.forEachIndexed { index,screen ->
+            bottomNavScreenList.forEachIndexed { index,screen ->
                 val selected = currentDestination?.hierarchy?.any {
                     it.route == screen.route
                 } == true

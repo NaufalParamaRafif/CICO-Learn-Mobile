@@ -28,6 +28,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.cicolearn.R
 import com.example.cicolearn.components.LessonCard
 import com.example.cicolearn.ui.theme.LightBackground
@@ -36,11 +37,13 @@ import com.example.cicolearn.ui.theme.LightDarkText
 import com.example.cicolearn.ui.theme.LightSecondary
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchScreen(navController: NavController, placeholderText: String) {
+fun SearchScreen(navController: NavHostController, placeholderText: String = "Search") {
     Scaffold(
+        containerColor = LightBackground,
         topBar = {
             val inputState = rememberTextFieldState()
             TopAppBar(
+                modifier = Modifier.padding(horizontal = 8.dp),
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = LightBackground
                 ),
@@ -91,7 +94,7 @@ fun SearchScreen(navController: NavController, placeholderText: String) {
         }
     ) { contentPadding ->
         Column(
-            modifier = Modifier.padding(contentPadding)
+            modifier = Modifier.padding(contentPadding).padding(16.dp)
         ) {
             LessonCard(
                 title = "Foods", 12, 123

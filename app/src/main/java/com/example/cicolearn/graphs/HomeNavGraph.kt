@@ -13,6 +13,7 @@ import androidx.navigation.compose.navigation
 import com.example.cicolearn.BottomBarScreen
 import com.example.cicolearn.screen.HomeScreen
 import com.example.cicolearn.screen.NotificationScreen
+import com.example.cicolearn.screen.SearchScreen
 
 @Composable
 fun HomeNavGraph(navController: NavHostController) {
@@ -45,11 +46,15 @@ fun NavGraphBuilder.homeDetailsNavGraph(navController: NavHostController) {
         composable(route = HomeDetailsScreen.Notification.route) {
             NotificationScreen(navController = navController)
         }
+        composable(route = HomeDetailsScreen.Search.route) {
+            SearchScreen(navController = navController)
+        }
     }
 }
 
 sealed class HomeDetailsScreen(val route: String) {
     object Notification : HomeDetailsScreen(route = "notification")
+    object Search : HomeDetailsScreen(route = "search")
 }
 
 object Graph {

@@ -28,6 +28,8 @@ import com.example.cicolearn.components.SelectedLessonCategoryButton
 import com.example.cicolearn.components.StreakCard
 import com.example.cicolearn.components.TopAppBarSearch
 import com.example.cicolearn.components.UnselectedLessonCategoryButton
+import com.example.cicolearn.graphs.HomeDetailsScreen
+import com.example.cicolearn.graphs.HomeNavGraph
 import com.example.cicolearn.ui.theme.LightBackground
 import com.example.cicolearn.ui.theme.LightDarkText
 
@@ -38,9 +40,8 @@ fun HomeScreen(navController: NavHostController) {
         topBar = {
             TopAppBarSearch(
                 navController = navController,
-                destinationRoute = "Search",
                 actionIcon = R.drawable.ic_top_app_bar_notification,
-                actionDestinationRoute = "Notification",
+                actionDestinationRoute = HomeDetailsScreen.Notification.route,
                 placeHolderText = "Search words, phrases..."
             )
         },
@@ -75,7 +76,6 @@ fun HomeScreen(navController: NavHostController) {
                     .fillMaxWidth()
                     .horizontalScroll(scrollLessonsCategoryState),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
-
                 ) {
                 SelectedLessonCategoryButton("Recent Lessons")
                 UnselectedLessonCategoryButton("Vocabulary")

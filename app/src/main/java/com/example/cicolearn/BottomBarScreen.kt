@@ -46,3 +46,10 @@ sealed class BottomBarScreen(
     )
 
 }
+
+val bottomNavScreenList = listOf(
+    BottomBarScreen.Home,
+    BottomBarScreen.Memorize,
+    BottomBarScreen.TrainWithAI,
+    BottomBarScreen.Profile
+)

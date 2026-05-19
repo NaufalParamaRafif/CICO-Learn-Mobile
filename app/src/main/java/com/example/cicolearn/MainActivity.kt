@@ -37,19 +37,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-//            val homepageTab = TabBarItem(title = "Home", selectedIcon = R.drawable.ic_bottom_app_bar_selected_homepage, unselectedIcon = R.drawable.ic_bottom_app_bar_unselected_homepage)
-//            val memorizeTab = TabBarItem(title = "Memorize", selectedIcon = R.drawable.ic_bottom_app_bar_selected_memorize, unselectedIcon = R.drawable.ic_bottom_app_bar_unselected_memorize)
-//            val trainWithAITab = TabBarItem(title = "Train with AI", selectedIcon = R.drawable.ic_bottom_app_bar_selected_train_with_ai, unselectedIcon = R.drawable.ic_bottom_app_bar_unselected_memorize)
-//            val profileTab = TabBarItem(title = "Profile", selectedIcon = R.drawable.ic_bottom_app_bar_selected_profile, unselectedIcon = R.drawable.ic_bottom_app_bar_unselected_profile)
-//
-//            val tabBarItems = listOf<TabBarItem>(homepageTab, memorizeTab, trainWithAITab, profileTab)
-//
             val navController = rememberNavController()
-//            val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
-//
-//            val showBottomBar = currentRoute in listOf(
-//                "Home", "Memorize", "Train with AI", "Profile", "Notification"
-//            )
+            val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+            val showBottomBar = bottomNavScreenList.any { it.route == currentRoute }
 
             CICOLearnTheme {
                 Surface(
@@ -58,10 +48,9 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Scaffold(
                         bottomBar = {
-//                            if (showBottomBar) {
-//                                TabView(navController)
-//                            }
-                            TabView(navController = navController)
+                            if (showBottomBar) {
+                                TabView(navController = navController)
+                            }
                         }
                     ) {
                         HomeNavGraph(navController = navController)

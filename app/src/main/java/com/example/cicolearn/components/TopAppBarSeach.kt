@@ -34,6 +34,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.cicolearn.R
 import com.example.cicolearn.graphs.HomeDetailsScreen
 import com.example.cicolearn.screen.SearchScreen
@@ -45,8 +46,7 @@ import com.example.cicolearn.ui.theme.LightSecondary
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopAppBarSearch(
-    navController: NavController,
-    destinationRoute: String,
+    navController: NavHostController,
     @DrawableRes actionIcon: Int,
     actionDestinationRoute: String,
     placeHolderText : String
@@ -56,7 +56,7 @@ fun TopAppBarSearch(
     val isPressed by interactionSource.collectIsFocusedAsState()
 
     if (isPressed) {
-        navController.navigate(SearchScreen(navController, "Halo"))
+        navController.navigate(HomeDetailsScreen.Search.route)
     }
 
     TopAppBar(
@@ -105,7 +105,7 @@ fun TopAppBarSearch(
             ) {
                 IconButton (
                     onClick = {
-                        navController.navigate(HomeDetailsScreen.Notification.route)
+                        navController.navigate(route = actionDestinationRoute)
                     }
                 ) {
                     Icon(
