@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.example.cicolearn.BottomBarScreen
 import com.example.cicolearn.screen.HomeScreen
+import com.example.cicolearn.screen.MemorizeScreen
 import com.example.cicolearn.screen.NotificationScreen
 import com.example.cicolearn.screen.SearchScreen
 
@@ -26,7 +27,7 @@ fun HomeNavGraph(navController: NavHostController) {
             HomeScreen(navController)
         }
         composable(route = BottomBarScreen.Memorize.route) {
-            Text("Memorize")
+            MemorizeScreen(navController)
         }
         composable(route = BottomBarScreen.TrainWithAI.route) {
             Text("Train with AI")

@@ -64,7 +64,7 @@ fun LessonCard(title: String, total: Int, progress: Int) {
                 )
                 Spacer(Modifier.width(16.dp))
                 Column(
-                    verticalArrangement = Arrangement.SpaceBetween
+//                    verticalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
                         "Foods",
@@ -72,6 +72,7 @@ fun LessonCard(title: String, total: Int, progress: Int) {
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 18.sp
                     )
+                    Spacer(Modifier.height(8.dp))
                     Text(
                         text = "$total Words",
                         modifier = Modifier
