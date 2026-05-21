@@ -15,6 +15,7 @@ import com.example.cicolearn.screen.HomeScreen
 import com.example.cicolearn.screen.MemorizeScreen
 import com.example.cicolearn.screen.NotificationScreen
 import com.example.cicolearn.screen.SearchScreen
+import com.example.cicolearn.screen.TrainWithAIScreen
 
 @Composable
 fun HomeNavGraph(navController: NavHostController) {
@@ -30,7 +31,7 @@ fun HomeNavGraph(navController: NavHostController) {
             MemorizeScreen(navController)
         }
         composable(route = BottomBarScreen.TrainWithAI.route) {
-            Text("Train with AI")
+            TrainWithAIScreen(navController)
         }
         composable(route = BottomBarScreen.Profile.route) {
             Text("Profile")
