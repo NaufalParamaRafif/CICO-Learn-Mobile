@@ -1,10 +1,12 @@
 package com.example.cicolearn.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -29,32 +31,44 @@ import com.example.cicolearn.ui.theme.LightLightText
 import com.example.cicolearn.ui.theme.LightSurface
 
 @Composable
-fun TrainWithAIModeCard(title: String, description: String) {
+fun TrainWithAIHistoryItem(title: String, lessonTime: String, timeAgo: String, optionalLabel: String? = null) {
     Card(
-        modifier = Modifier
-            .border(1.dp, LightLightBorder, RoundedCornerShape(8.dp)),
+        modifier = Modifier.padding(horizontal = 24.dp).fillMaxWidth(),
         colors = CardDefaults.cardColors(
+            containerColor = LightSurface,
             contentColor = LightLightText,
-            containerColor = LightSurface
         ),
+        border = BorderStroke(0.8.dp, LightLightBorder),
+        shape = RoundedCornerShape(8.dp)
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                modifier = Modifier.size(48.dp).clip(CircleShape),
+                modifier = Modifier.size(40.dp).clip(CircleShape),
                 painter = painterResource(R.drawable.introduction_image),
                 contentDescription = null
             )
             Spacer(Modifier.width(16.dp))
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
-                Text(title, fontWeight = FontWeight.Bold, fontSize = 16.sp, color = LightDarkText)
-                Spacer(Modifier.height(4.dp))
-                Text(description, fontWeight = FontWeight.Medium)
+            Column {
+                Text(title, fontWeight = FontWeight.Bold, fontSize = 14.sp, color = LightDarkText)
+                if(optionalLabel.isNullOrBlank()) {
+                    Spacer(Modifier.height(8.dp))
+                } else {
+                    Spacer(Modifier.height(4.dp))
+                    PrimaryLabelText(optionalLabel)
+                    Spacer(Modifier.height(4.dp))
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(lessonTime, fontSize = 10.sp)
+                    Text(timeAgo, fontSize = 10.sp)
+                }
             }
         }
     }
+    Spacer(Modifier.height(16.dp))
 }

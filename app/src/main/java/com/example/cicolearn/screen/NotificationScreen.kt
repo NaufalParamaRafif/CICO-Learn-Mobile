@@ -13,11 +13,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.cicolearn.R
 import com.example.cicolearn.components.NotificationItem
+import com.example.cicolearn.components.TopAppBarBack
+import com.example.cicolearn.ui.theme.LightBackground
 import com.example.cicolearn.ui.theme.LightDarkText
 import com.example.cicolearn.ui.theme.LightLightBorder
 
@@ -25,21 +29,9 @@ import com.example.cicolearn.ui.theme.LightLightBorder
 @Composable
 fun NotificationScreen(navController: NavController) {
     Scaffold(
+        containerColor = LightBackground,
         topBar = {
-            TopAppBar(
-                navigationIcon = {
-                    IconButton(
-                        onClick = {
-                            navController.popBackStack()
-                        }
-                    ) {
-                        Icon(painter = painterResource(R.drawable.ic_back_button), contentDescription = null, tint = LightDarkText)
-                    }
-                },
-                title = {
-                    Text("Notification", fontWeight = FontWeight.Bold, color = LightDarkText, fontSize = 20.sp)
-                },
-            )
+            TopAppBarBack(navController, "Notification")
         }
     ) { contentPadding ->
         Column(
@@ -58,4 +50,11 @@ fun NotificationScreen(navController: NavController) {
             HorizontalDivider(thickness = 1.dp, color = LightLightBorder)
         }
     }
+}
+
+@Preview
+@Composable
+private fun NotificationScreenPreview() {
+    val navController = rememberNavController()
+    NotificationScreen(navController)
 }

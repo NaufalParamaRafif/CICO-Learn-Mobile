@@ -1,9 +1,6 @@
 package com.example.cicolearn
 
 import androidx.annotation.DrawableRes
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import kotlin.collections.contains
 
 sealed class BottomBarScreen(
     val route: String,
@@ -11,15 +8,6 @@ sealed class BottomBarScreen(
     @param:DrawableRes val selectedIcon: Int,
     @param:DrawableRes val unselectedIcon: Int,
 ) {
-//    val tabBarItems = listOf<TabBarItem>(homepageTab, memorizeTab, trainWithAITab, profileTab)
-//
-//    val navController = rememberNavController()
-//    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
-//
-//    val showBottomBar = currentRoute in listOf(
-//        "Home", "Memorize", "Train with AI", "Profile", "Notification"
-//    )
-
     object Home : BottomBarScreen(
         route = "home",
         title = "Home",

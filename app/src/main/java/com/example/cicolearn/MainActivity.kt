@@ -10,17 +10,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.cicolearn.components.TabView
 import com.example.cicolearn.graphs.HomeNavGraph
-import com.example.cicolearn.screen.HomeScreen
-import com.example.cicolearn.screen.NotificationScreen
-import com.example.cicolearn.screen.SearchScreen
 import com.example.cicolearn.ui.theme.CICOLearnTheme
 import com.example.cicolearn.ui.theme.LightBackground
 

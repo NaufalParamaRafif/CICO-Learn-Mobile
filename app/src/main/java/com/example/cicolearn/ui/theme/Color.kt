@@ -30,6 +30,8 @@ val LightDanger = Color(0xFFD00000)
 
 val LightPrimaryGradient = Brush.linearGradient(
     colors = listOf(LightPrimary, LightPrimaryDark),
-    start = Offset(0f, Float.POSITIVE_INFINITY),
-    end = Offset(Float.POSITIVE_INFINITY, 0f)
+//    start = Offset(0f, Float.POSITIVE_INFINITY),
+//    end = Offset(Float.POSITIVE_INFINITY, 0f)
+    start = Offset(0f, 0f),
+    end = Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
 )

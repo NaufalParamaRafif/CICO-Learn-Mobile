@@ -1,6 +1,5 @@
 package com.example.cicolearn.components
 
-import android.icu.text.CaseMap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -49,7 +48,6 @@ fun DraftMemorizeCard(
             containerColor = LightSurface,
             contentColor = LightDarkText
         ),
-//                    shape = RoundedCornerShape(8.dp)
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp).fillMaxWidth(),
@@ -83,7 +81,6 @@ fun DraftMemorizeCard(
                 )
             }
             Box(
-//                            modifier = Modifier.align(Alignment.End),
                 contentAlignment = Alignment.Center,
             ) {
                 Column(

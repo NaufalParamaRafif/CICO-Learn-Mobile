@@ -33,11 +33,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.cicolearn.R
 import com.example.cicolearn.graphs.HomeDetailsScreen
-import com.example.cicolearn.screen.SearchScreen
 import com.example.cicolearn.ui.theme.LightBackground
 import com.example.cicolearn.ui.theme.LightDarkBorder
 import com.example.cicolearn.ui.theme.LightDarkText
