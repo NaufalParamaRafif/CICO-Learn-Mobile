@@ -21,9 +21,12 @@ val LightSecondary = Color(0xFFF2F2F2)
 val LightSurface = Color(0xFFFAFCFE)
 val LightDarkText = Color(0xFF3D475C)
 val LightLightText = Color(0xFF94A0B8)
+val LightSemiDarkText = Color(0xFF5C6B8A)
 val LightDarkBorder = Color(0xFF667799)
 val LightLightBorder = Color(0xFFB7C0D1)
 val LightBottomNavigationLightText = Color(0xFF5C6B8A)
+val LightSuccess = Color(0xFF34B257)
+val LightDanger = Color(0xFFD00000)
 
 val LightPrimaryGradient = Brush.linearGradient(
     colors = listOf(LightPrimary, LightPrimaryDark),
