@@ -27,6 +27,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.cicolearn.components.LearnVocabularyLessonDraftItem
 import com.example.cicolearn.components.LearnVocabularyLessonTopicWordItem
+import com.example.cicolearn.components.PrimaryGradientElevatedButton
 import com.example.cicolearn.components.TopAppBarBack
 import com.example.cicolearn.components.VocabularyLessonTopicCaption
 import com.example.cicolearn.components.VocabularyLessonTopicSearch
@@ -48,14 +49,7 @@ fun VocabularyLessonTopicScreen(navController: NavController) {
             )
         },
         floatingActionButton = {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth().padding(horizontal = 24.dp, vertical = 16.dp)
-                    .background(LightPrimaryGradient, RoundedCornerShape(4.dp)),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text("Start Learning", modifier = Modifier.padding(12.dp), fontWeight = FontWeight.Bold, fontSize = 16.sp, color = LightOnPrimary)
-            }
+            PrimaryGradientElevatedButton("Start Learning")
         },
         floatingActionButtonPosition = FabPosition.Center
     ) { contentPadding ->
