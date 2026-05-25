@@ -17,10 +17,9 @@ import com.example.cicolearn.ui.theme.LightPrimaryGradient
 
 @Composable
 fun PrimaryGradientElevatedButton(text: String) {
-
     Box(
         modifier = Modifier
-            .fillMaxWidth().padding(horizontal = 24.dp, vertical = 16.dp)
+            .fillMaxWidth().padding(horizontal = 24.dp)
             .background(LightPrimaryGradient, RoundedCornerShape(4.dp)),
         contentAlignment = Alignment.Center,
     ) {
