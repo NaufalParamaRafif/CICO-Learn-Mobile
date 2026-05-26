@@ -2,7 +2,6 @@ package com.example.cicolearn.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -22,7 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -40,11 +38,10 @@ import com.example.cicolearn.ui.theme.LightDanger
 import com.example.cicolearn.ui.theme.LightDarkBorder
 import com.example.cicolearn.ui.theme.LightDarkText
 import com.example.cicolearn.ui.theme.LightLightBackground
-import com.example.cicolearn.ui.theme.LightOnPrimary
-import com.example.cicolearn.ui.theme.LightPrimaryGradient
 import com.example.cicolearn.ui.theme.LightSuccess
 import com.example.cicolearn.ui.theme.LightSurface
 
+// TODO: REFACTOR THIS SCREEN
 @Composable
 fun VocabularyLessonTypeWordScreen(navController: NavController) {
     Scaffold(
