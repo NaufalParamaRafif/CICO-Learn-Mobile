@@ -22,14 +22,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.cicolearn.components.PrimaryGradientElevatedButton
 import com.example.cicolearn.components.TopAppBarBack
 import com.example.cicolearn.ui.theme.LightBackground
 import com.example.cicolearn.ui.theme.LightDarkText
 import com.example.cicolearn.ui.theme.LightOnPrimary
 import com.example.cicolearn.ui.theme.LightPrimaryGradient
 
-// TODO: REFACTOR THIS SCREEN
 @Composable
 fun MemorizeChooseModeScreen(navController: NavController) {
     Scaffold(
